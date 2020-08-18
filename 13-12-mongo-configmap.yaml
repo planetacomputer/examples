@@ -32,6 +32,7 @@ data:
     #Atenció, aquest bloc de codi només afecta els pods que faran d'slaves
     if [[ "${HOSTNAME}" != 'mongo-0' ]]; then
       #Mentre no s'hagi inicialitzat la configuració del mongo-0 com a master... espera
+      #Fixeu-vos que cada sidecar té un client mongo i executa la comanda en el remot del seu pod
       until /usr/bin/mongo --host=${HOST} --eval="printjson(rs.status())" \
             | grep -v "no replset config has been received"; do
         echo "waiting for replication set initialization"
